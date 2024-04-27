@@ -1,10 +1,12 @@
 import requests
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm,UserProfileForm
 from .models import UserProfile
+from connections.models import FriendRequest
+from django.db.models import Q
 
 def index(request):
     return render(request, 'base/base.html')
@@ -56,6 +58,40 @@ def userdetails(request):
         form = UserProfileForm()
 
     return render(request, 'accounts/createprofile.html', {'form': form})
+
+def profile(request):
+    user = request.user
+    friend_requests = FriendRequest.objects.filter(receiver=user)  # Requests sent by the user
+    user_profile = UserProfile.objects.get(user=user)
+    friends = user_profile.friends.all()
+    context = {
+        'user': user,
+        'friend_requests': friend_requests,
+        'friends': friends,
+    }
+    return render(request, 'accounts/profile.html', context)
+
+def accept_decline_friend_request(request, request_id):
+    friend_request = get_object_or_404(FriendRequest, id=request_id)
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'accept':
+            # Accept the friend request
+            friend_request.status = 'accepted'
+            friend_request.save()
+            sender_profile = UserProfile.objects.get(user=friend_request.sender)
+            receiver_profile = UserProfile.objects.get(user=friend_request.receiver)
+            sender_profile.friends.add(friend_request.receiver)
+            receiver_profile.friends.add(friend_request.sender)
+            friend_request.delete()
+        elif action == 'decline':
+            # Decline the friend request
+            friend_request.status = 'declined'
+            friend_request.save()
+            friend_request.delete()
+        return redirect('accounts:profile')
+    
+    return redirect('accounts:profile')
 
 def logout_view(request):
     logout(request)

@@ -1,0 +1,37 @@
+{% extends "base/base2.html" %}
+
+
+{% block dir %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <a href="/button1" class="btn btn-primary btn-lg btn-block mb-3 mt-3" onclick="appendTitle(this)">Study Guides</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a href="/button2" class="btn btn-primary btn-lg btn-block mb-3" onclick="appendTitle(this)">Lecture Notes</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a href="/button3" class="btn btn-primary btn-lg btn-block mb-3" onclick="appendTitle(this)">Practice Exams</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a href="/button3" class="btn btn-primary btn-lg btn-block mb-3" onclick="appendTitle(this)">Useful Websites</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function appendTitle(element) {
+    var currentUrl = window.location.href;
+    var title = element.innerText.trim().replace(/\s+/g, '-').toLowerCase();
+    var newUrl = currentUrl.endsWith('/') ? currentUrl + title : currentUrl + '/' + title;
+    element.href = newUrl;
+  }
+</script>
+
+{% endblock %}

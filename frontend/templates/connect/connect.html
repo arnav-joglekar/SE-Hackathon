@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+    View Students
+{% endblock %}
+{% block head %}
+<style>
+    .student-card {
+        margin-bottom: 20px;
+        height: 200px; 
+        overflow-y: auto;
+    }
+    .card-body {
+        height: 100%;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Available Students</h1>
+
+    <!-- Filter Section -->
+    <div class="mb-4">
+        <form action="" method="get" class="row g-3">
+            <div class="col-md-4">
+                <select class="form-select" name="courses">
+                    <option value="" selected>Filter by Courses</option>
+                    {% for choice, _ in DEPARTMENT_YEAR_CHOICES %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Student List -->
+    <div class="row">
+        {% for student in students %}
+            <div class="col-md-4">
+                <div class="card student-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ student.user.username }}</h5>
+                        <p class="card-text">Courses: {{ student.courses }}</p>
+                        <p class="card-text">Preferred Study Methods: {{ student.preferred_study_methods }}</p>
+                        <p class="card-text">Goals: {{ student.goals }}</p>
+                        <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-primary">Connect</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+        <div class="col">
+            <p>No students found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

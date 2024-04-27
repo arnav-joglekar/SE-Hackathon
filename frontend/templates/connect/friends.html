@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+    User Profile
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>User Profile</h1>
+    <h2>User Details</h2>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <!-- Add more user details as needed -->
+
+    <h2>Friends</h2>
+    <div class="row">
+        {% if friends %}
+        {% for friend in friends %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ friend.username }}</h5>
+                    <!-- Add any other details about the friend here -->
+                    <form method="post" action="{% url 'connections:chat' friend.username %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="recipient" value="{{ friend.username }}">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No friends yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
