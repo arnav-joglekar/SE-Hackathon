@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    Chat with {{ recipient.username }}
+{% endblock %}
+{% block head %}
+<style>
+    
+    .chat-box {
+        padding: 20px;
+        overflow-y: scroll;
+        max-height: 400px;
+    }
+    .message {
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+    }
+    .sent-message {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+        text-align: right;
+        color:black;
+    }
+    .received-message {
+        background-color: #e6e6e6;
+        color:black;
+
+    }
+    .message p {
+        margin: 0;
+    }
+    .message small {
+        color: #666;
+    }
+    .message.sent-message small {
+        text-align: right;
+    }
+    .message.received-message small {
+        text-align: left;
+    }
+    form {
+        padding: 20px;
+        border-top: 1px solid #ccc;
+    }
+    textarea {
+        width: calc(100% - 80px);
+        height: 60px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+    }
+    button {
+        width: 60px;
+        height: 60px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Chat with {{ recipient.username }}</h1>
+    <div class="chat-box" id="chat-box">
+        {% for message in messages|dictsort:"timestamp" %}
+            <div class="message {% if message.sender == recipient %}received-message{% else %}sent-message{% endif %}">
+                <p>{{ message.content }}</p>
+                <small>{{ message.sender.username }} - {{ message.timestamp|date:"DATETIME_FORMAT" }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    <form id="message-form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="recipient" value="{{ recipient.username }}">
+        <textarea name="content" id="message-input" placeholder="Type your message here..."></textarea>
+        <button type="submit">Send</button>
+    </form>
+</div>
+<script>
+    // JavaScript to scroll chat box to the bottom
+    var chatBox = document.getElementById("chat-box");
+    chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+{% endblock %}
