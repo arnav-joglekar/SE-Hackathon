@@ -1,13 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
+
 
 class Domain(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 class Resource(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     STUDY_GUIDES = 'Study Guides'
     LECTURE_NOTES = 'Lecture Notes'
     PRACTICE_EXAMS = 'Practice Exams'
@@ -25,6 +29,7 @@ class Resource(models.Model):
     uploader = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.FileField(upload_to='resources/')
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.title
