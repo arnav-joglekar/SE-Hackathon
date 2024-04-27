@@ -58,3 +58,7 @@ def chat(request, username):
         recipient = User.objects.get(username=username)
         messages_history = Message.objects.filter(sender=request.user, receiver=recipient) | Message.objects.filter(sender=recipient, receiver=request.user)
         return render(request, 'connect/chat.html', {'recipient': recipient, 'messages': messages_history})
+    
+def videocall(request):
+    username = request.user.username
+    return render(request, 'connect/meeting.html',{'username':username})
