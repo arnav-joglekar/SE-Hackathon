@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateUserForm
+from .forms import CreateUserForm,UserProfileForm
+from .models import UserProfile
 
 def index(request):
     return render(request, 'base/base.html')
@@ -12,7 +13,7 @@ def signup(request):
     form = CreateUserForm()
 
     if request.user.is_authenticated:
-        return redirect('base/base.html')
+        return redirect('home')
     else:
         if request.method == 'POST':
             form = CreateUserForm(request.POST) 
@@ -34,13 +35,29 @@ def login_view(request):
         
         if user is not None:  
             login(request, user)
-            return redirect('base/base')
+            if not hasattr(user, 'userprofile'):
+                return redirect('accounts:userdetails')
+            else:
+                return redirect('home')
         else:
             messages.error(request, 'Invalid login details. Check your username and password.')
-            
+
     return render(request, 'accounts/login.html')
+
+def userdetails(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('home')
+    else:
+        form = UserProfileForm()
+
+    return render(request, 'accounts/createprofile.html', {'form': form})
 
 def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
-    return redirect('accounts/login') 
+    return redirect('accounts:login') 
