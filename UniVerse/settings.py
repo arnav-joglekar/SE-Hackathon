@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'frontend',
     'widget_tweaks',
+    'room',
 ]
 
 MIDDLEWARE = [
