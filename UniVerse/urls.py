@@ -17,6 +17,7 @@ urlpatterns = [
     path('connect/', include('connections.urls')),
     path('',views.home,name='home'),
     path('',views.home,name='home'),
+    path('dashboard/',views.dashboard,name='dashboard'),
     path('todolist/',include('todolist.urls'))
 
 
