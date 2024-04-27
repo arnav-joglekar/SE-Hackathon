@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'resources',
     #'collab',
     'connections',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
