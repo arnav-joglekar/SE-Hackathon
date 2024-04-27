@@ -1,0 +1,37 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Update Your Profile</div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="courses" class="form-label">Courses</label>
+                            <select class="form-select" id="courses" name="courses">
+                                {% for course in form.courses.field.choices %}
+                                    <option value="{{ course.0 }}" {% if user_profile.courses == course.0 %} selected {% endif %}>{{ course.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="preferred_study_methods" class="form-label">Preferred Study Methods</label>
+                            <textarea class="form-control" id="preferred_study_methods" name="preferred_study_methods" rows="3">{{ user_profile.preferred_study_methods }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="goals" class="form-label">Goals</label>
+                            <textarea class="form-control" id="goals" name="goals" rows="3">{{ user_profile.goals }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
