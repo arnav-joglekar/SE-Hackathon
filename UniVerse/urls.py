@@ -5,6 +5,6 @@ from UniVerse import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('',views.home,name='home'),
-    path('todolist/',include('todolist.urls'))
+    path('todolist/',include('todolist.urls')),
+    path('',include('room.urls')),
 ]
