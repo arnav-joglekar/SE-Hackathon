@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="{% static 'js/color-modes.js' %}"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
@@ -13,7 +14,7 @@
   {% endblock %}
 </head>
 <body>
-  <header class="p-3 mb-3 border-bottom">
+  <header class="p-3  border-bottom">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
@@ -42,11 +43,9 @@
         </div>
       </div>
     </div>
-    <a id ="link" href="{% url 'accounts:logout' %}">Logout</a>
-
   </header>
 
-  <div class="container">
+  <div>
     {% block content %}
     {% endblock %}
   </div>
