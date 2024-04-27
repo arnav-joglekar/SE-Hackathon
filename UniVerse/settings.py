@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'room',
     'resources',
-    'collab',
+    #'collab',
     'connections',
 ]
 
@@ -129,6 +129,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Media root based on DEBUG mode
