@@ -1,102 +1,75 @@
 {% extends "base/base.html" %}
-{% comment %} {% comment %} {% extends "base/base.html" %}
+
 {% load widget_tweaks %}
 
-
-{% block content %}
-<div class="conatiner justify-content-center">
-<form action="{% url 'todolist:create_selfstudy' %}" method="POST">
-    {% csrf_token %}
-    {% comment %} <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Name</label>
-      <input type="text" class="form-control" name='name'>
-    </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-<div>
-    {% for s in selfstudy %}
-        {{s.name}}
-    {% endfor %}
-
-</div>
-{% endblock%}
-
-
-
-
- {% endcomment %}
-{% load widget_tweaks %}
 {% block head %}
 <style>
-
-    .green{
-    color: green;
+    .green {
+        color: green;
     }
-    .red{
-        color:red
+    .red {
+        color: red;
+    }
+    .red-row {
+        background-color: red;
+    }
+
+    .green-row {
+        background-color: green;
     }
 </style>
 {% endblock %}
- {% block content %}
- <div class="conatiner justify-content-center">
- <form action="{% url 'todolist:create_selfstudy' %}" method="POST" class="form-inline">
-     {% csrf_token %}
-     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Name</label>
-        <input type="text" class="form-control" name='name'>
-      </div>
-     <div class="mb-3 form-group justify-content-center">
-         <label for="exampleInputDate1" class="sr-only">Date</label>
-         <input type="date" class="form-control" id="exampleInputDate1" name='due_date' placeholder="Date">
-     </div>
-     <div class = "mb-3 form-check">
-       <input type="checkbox" class="form-check-input" id="exampleCheck1">
-       <label class="form-check-label" for="exampleCheck1">Check me out</label>
-     </div>
-     <button type="submit" class="btn btn-primary">Submit</button>
-   </form>
- </div>
- <div>
-     <table class="table table-bordered table-striped">
-         <thead>
-             <tr>
-                 <th>Serial Number</th>
-                 <th>Date</th>
-                 <th>Name</th>
-                 <th>Status</th>
-             </tr>
-         </thead>
-         <tbody>
-             {% for s in selfstudy %}
-                 <tr>
-                     {% if forloop.first %}
-                         <td>1</td>
-                     {% else %}
-                         <td>{{ forloop.counter }}</td>
-                     {% endif %}
-                     <td>{{ s.due_date}}</td>
-                     <td>{{ s.name }}</td>
-                     <td>
+
+{% block content %}
+<div class="container justify-content-center">
+    <form action="{% url 'todolist:create_selfstudy' %}" method="POST" class="form-inline">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label" >Name</label>
+            <input type="text" class="form-control" name='name'required/ >
+        </div>
+        <div class="mb-3 form-group justify-content-center">
+            <label for="exampleInputDate1" class="sr-only" >Date</label>
+            <input type="date" class="form-control" id="exampleInputDate1" name='due_date' required/ placeholder="Date">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" required/ id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1" >Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in selfstudy %}
+                <tr class="{% if s.due_date > s.currentTime %}green-row{% else %}red-row{% endif %}">
+                    {% if forloop.first %}
+                        <td>1</td>
+                    {% else %}
+                        <td>{{ forloop.counter }}</td>
+                    {% endif %}
+                    <td>{{ s.due_date }}</td>
+                    <td>{{ s.name }}</td>
+                    <td>
                         {% if s.completed %}
-                        <span class="badge badge-success green">Completed</span>
+                         <span class="badge badge-success btn btn-success">Completed</span>
                         {% else %}
-                        <a class="badge badge-danger red" href="{% url 'todolist:complete_selfstudy' s.uuid %}">Complete</a>
+                        <a class="badge badge-danger btn btn-danger" href="{% url 'todolist:complete_selfstudy' s.uuid %}">Complete</a>
                         {% endif %}
- 
+                        <a class="badge badge-danger btn btn-danger" href="{% url 'todolist:delete_selfstudy' s.uuid %}">Delete</a>
                     </td>
-                 </tr>
-             {% endfor %}
-         </tbody>
-     </table>
- </div>
- {% endblock%}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
