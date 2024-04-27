@@ -3,6 +3,7 @@ from django.urls import path,include
 from UniVerse import views
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
     path('',views.home,name="home"),
@@ -14,6 +15,7 @@ urlpatterns = [
 
     path('rooms/', include('room.urls')),
     path('connect/', include('connections.urls')),
+    path('',views.home,name='home'),
     path('',views.home,name='home'),
     path('todolist/',include('todolist.urls'))
 
