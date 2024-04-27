@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'frontend',
     'widget_tweaks',
     'room',
+    'connections',
 ]
 
 MIDDLEWARE = [

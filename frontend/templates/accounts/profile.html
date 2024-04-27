@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}
+    View Students
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>User Profile</h1>
+    <h2>User Details</h2>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <!-- Add more user details as needed -->
+
+    <h2>Friend Requests </h2>
+    {% if friend_requests %}
+    <ul>
+        {% for request in friend_requests %}
+        <li>
+            From: {{ request.sender.username }}
+            <form method="post" action="{% url 'accounts:acdrequest' request.id %}">
+                {% csrf_token %}
+                <button type="submit" name="action" value="accept">Accept</button>
+                <button type="submit" name="action" value="decline">Decline</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No friend requests received.</p>
+    {% endif %}
+
+    <h2>Friends</h2>
+    {% if friends %}
+    <ul>
+        {% for friend in friends %}
+        <li>{{ friend.username }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No friends yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

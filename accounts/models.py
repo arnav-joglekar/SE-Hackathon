@@ -19,6 +19,7 @@ class UserProfile(models.Model):
     courses = models.CharField(max_length=6, choices=DEPARTMENT_YEAR_CHOICES)
     preferred_study_methods = models.TextField(blank=True)
     goals = models.TextField(blank=True)
+    friends = models.ManyToManyField(User, related_name='friends', blank=True)
 
     def __str__(self):
         return self.user.username
