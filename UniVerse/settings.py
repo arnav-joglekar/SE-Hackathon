@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'frontend',
     'widget_tweaks',
     'room',
-    'todolist'
+    'todolist',
     'resources',
     #'collab',
     'connections',

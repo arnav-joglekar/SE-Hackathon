@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import UserProfile,User
 from django.shortcuts import redirect, get_object_or_404
 from .models import FriendRequest
+from django.http import JsonResponse
+import json
+from .models import Message
 
 # Create your views here.
 def connect(request):
@@ -42,14 +45,16 @@ def friends(request):
     }
     return render(request, 'connect/friends.html', context)
 
-def send_message(request):
+
+def chat(request, username):
     if request.method == 'POST':
         recipient_username = request.POST.get('recipient')
         recipient = User.objects.get(username=recipient_username)
-        # Perform any additional logic here, such as saving the message to the database
-        messages.success(request, f"Message sent to {recipient_username}")
-        return redirect('accounts:profile')  # Redirect back to the user's profile
+        content = request.POST.get('content')
+        if content:
+            Message.objects.create(sender=request.user, receiver=recipient, content=content)
+        return redirect('connections:chat', username=recipient_username)
     else:
-        # Handle GET requests or invalid form submissions
-        messages.error(request, "Invalid request")
-        return redirect('accounts:profile')
+        recipient = User.objects.get(username=username)
+        messages_history = Message.objects.filter(sender=request.user, receiver=recipient) | Message.objects.filter(sender=recipient, receiver=request.user)
+        return render(request, 'connect/chat.html', {'recipient': recipient, 'messages': messages_history})
