@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ friend.username }}</h5>
                     <!-- Add any other details about the friend here -->
-                    <form method="post" action="{% url 'connections:send_message' %}">
+                    <form method="post" action="{% url 'connections:chat' friend.username %}">
                         {% csrf_token %}
                         <input type="hidden" name="recipient" value="{{ friend.username }}">
                         <button type="submit" class="btn btn-primary">Send Message</button>
