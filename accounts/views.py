@@ -7,6 +7,7 @@ from .forms import CreateUserForm,UserProfileForm
 from .models import UserProfile
 from connections.models import FriendRequest
 from django.db.models import Q
+from resources.models import Domain
 
 def index(request):
     return render(request, 'base/base.html')
@@ -48,16 +49,22 @@ def login_view(request):
 
 def userdetails(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST)
-        if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
-            profile.save()
-            return redirect('rooms')
-    else:
-        form = UserProfileForm()
-
-    return render(request, 'accounts/createprofile.html', {'form': form})
+        if not UserProfile.objects.filter(user=request.user).exists():
+            form = UserProfileForm(request.POST)
+            print("hi")
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+                return redirect('rooms')
+    
+    form = UserProfileForm()
+    domain_choices = Domain.objects.all()
+    context = {
+        'form': form,
+        'domain_choices': domain_choices,
+    }
+    return render(request, 'accounts/createprofile.html', context)
 
 def profile(request):
     user = request.user

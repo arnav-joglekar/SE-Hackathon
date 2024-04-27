@@ -25,6 +25,14 @@
                             <label for="goals" class="form-label">Goals</label>
                             <textarea class="form-control" id="goals" name="goals" rows="3">{{ user_profile.goals }}</textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="domains" class="form-label">Domains</label>
+                            <select class="form-select" id="domains" name="domains" multiple size="5">
+                                {% for domain in form.domains.field.choices %}
+                                    <option value="{{ domain.0 }}" {% if domain.0 in user_profile.domains.all.values_list %} selected {% endif %}>{{ domain.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>
