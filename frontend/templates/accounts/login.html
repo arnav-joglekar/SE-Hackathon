@@ -1,0 +1,67 @@
+{% extends 'base/base.html' %}
+{% block page_contents %}
+{% load static %}
+{% load widget_tweaks %}
+
+    {% if messages %}
+      {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      {% endfor %}
+    {% endif %}
+
+<div class="row">
+    <div class="col-md-6 m-1 mx-auto p-3 shadow rounded">
+        <div class="page-header">
+            <div class="text-left">
+                <h4><i class="fa fa-sign-in" aria-hidden="true"></i> FestHub Login</h4>
+            </div>
+        </div>
+
+        <form class="site-form text-center" action="{% url 'accounts:login' %}" method="post">
+            {% csrf_token %}
+            <img class="my-3 mx-auto" src="{% static 'brand/logo.webp' %}" alt="logo" width="72" height="72">
+            <div class="col-md-4 mx-auto">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" name="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-lock"></i></span>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword"><i class="fa fa-eye"></i></button>
+                </div>
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
+                <br>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+            </div>
+        </form>
+        <p>Don't have an account? <a href="{% url 'accounts:signup' %}">Register here</a>.</p>
+        <div class="text-center">
+            <a href="{% url 'home' %}" class="text-primary-sm">Back</a>
+        </div>
+
+        <footer class="pt-2 mx-auto text-center">
+            <small><span class="text-muted">Licensed to SPIT | <a href="https://festhub.spit.ac.in">FestHub</a> {% now "Y" %}</a>.
+                </span>
+            </small>
+        </footer>
+    </div>
+</div>
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        var passwordInput = document.getElementById("password");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    });
+</script>
+
+{% endblock %}
