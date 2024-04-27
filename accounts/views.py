@@ -38,7 +38,7 @@ def login_view(request):
             if not hasattr(user, 'userprofile'):
                 return redirect('accounts:userdetails')
             else:
-                return redirect('home')
+                return redirect('rooms')
         else:
             messages.error(request, 'Invalid login details. Check your username and password.')
 
@@ -51,7 +51,7 @@ def userdetails(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            return redirect('home')
+            return redirect('rooms')
     else:
         form = UserProfileForm()
 
