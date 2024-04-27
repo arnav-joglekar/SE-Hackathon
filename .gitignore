@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Ignore the assets file
-assets
+assets/dist
