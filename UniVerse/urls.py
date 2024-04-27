@@ -10,5 +10,8 @@ urlpatterns = [
 
     path('resources/', include('resources.urls')),
 
+    path('rooms/', include('room.urls')),
+    path('connect/', include('connections.urls')),
+    path('',views.home,name='home'),
     path('todolist/',include('todolist.urls'))
 ]

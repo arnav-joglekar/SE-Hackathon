@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('signup/', views.signup, name="signup"),
     path('userdetails/', views.userdetails, name="userdetails"),
+    path('profile/', views.profile, name="profile"),
+    path('acdrequest/<int:request_id>/', views.accept_decline_friend_request, name="acdrequest"),
 ]
