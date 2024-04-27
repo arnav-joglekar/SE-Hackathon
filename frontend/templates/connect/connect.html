@@ -13,6 +13,7 @@
     .card-body {
         height: 100%;
     }
+
 </style>
 {% endblock %}
 {% block content %}
@@ -22,11 +23,22 @@
     <!-- Filter Section -->
     <div class="mb-4">
         <form action="" method="get" class="row g-3">
+            <!-- Filter by Courses -->
             <div class="col-md-4">
                 <select class="form-select" name="courses">
                     <option value="" selected>Filter by Courses</option>
                     {% for choice, _ in DEPARTMENT_YEAR_CHOICES %}
                         <option value="{{ choice }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Filter by Domains -->
+            <div class="col-md-4">
+                <select class="form-select" name="domains">
+                    <option value="" selected>Filter by Domains</option>
+                    {% for domain in domains_choices %}
+                        <option value="{{ domain }}">{{ domain }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -43,11 +55,24 @@
             <div class="col-md-4">
                 <div class="card student-card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ student.user.username }}</h5>
+                        <h5 class="card-title">{{ student.user.username }} &nbsp&nbsp&nbsp
+                            {% if not student.has_pending_request and not student.is_friend %}
+                            <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-primary">Send Request</a>
+                            {% comment %} {% elif not student.is_friend %}
+                                <div id="sent">Request sent</div>
+                            {% else %}
+                                <p>Already friends</p> {% endcomment %}
+                            {% endif %}</h5>
                         <p class="card-text">Courses: {{ student.courses }}</p>
                         <p class="card-text">Preferred Study Methods: {{ student.preferred_study_methods }}</p>
                         <p class="card-text">Goals: {{ student.goals }}</p>
-                        <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-primary">Connect</a>
+                        <p class="card-text">Domains: 
+                            {% for domain in student.domains.all %}
+                                {{ domain.name }}
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                        
                     </div>
                 </div>
             </div>
