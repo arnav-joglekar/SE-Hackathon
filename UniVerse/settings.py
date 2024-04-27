@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'frontend',
     'widget_tweaks',
     'room',
+    'resources',
+    'collab',
     'connections',
 ]
 
