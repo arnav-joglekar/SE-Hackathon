@@ -11,3 +11,11 @@ def rooms(request):
         'rooms':rooms,
     }
     return render(request,'room/rooms.html',context)
+
+# @login_required
+def room(request,slug):
+    room=Room.objects.get(slug=slug)
+    context= {
+        'room':room,
+    }
+    return render(request,'room/room.html',context)
