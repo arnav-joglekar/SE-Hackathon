@@ -17,5 +17,5 @@ class Selfstudy(models.Model):
     name=models.CharField(max_length=200)
     def __str__(self):
         return self.name
-    due_date=models.DateTimeField(null=True)
+    due_date=models.DateTimeField()
     completed=models.BooleanField(default=False)
