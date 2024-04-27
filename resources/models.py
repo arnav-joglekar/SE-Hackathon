@@ -33,3 +33,12 @@ class Resource(models.Model):
 
     def __str__(self):
         return self.title
+
+class UserResource(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='domains')
+    resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='interests')
+    saved = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['user', 'resource']

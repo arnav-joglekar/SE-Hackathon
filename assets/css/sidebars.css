@@ -1,3 +1,17 @@
+/* Add green color to the save button */
+.btn-save {
+  background-color: green;
+  color: white;
+}
+
+/* Add red color to the unsave button */
+.btn-unsave {
+  background-color: red;
+  color: white;
+}
+
+
+
 body {
   min-height: 100vh;
   min-height: -webkit-fill-available;
