@@ -14,6 +14,8 @@ from .models import Message
 # Create your views here.
 def connect(request):
     user_profiles = UserProfile.objects.exclude(user=request.user)
+    current_user_friends_ids = request.user.friends.values_list('user_id', flat=True)
+    user_profiles = user_profiles.exclude(user__id__in=current_user_friends_ids)
 
     all_domains = set()
     for profile in user_profiles:
