@@ -16,7 +16,8 @@ urlpatterns = [
 
     path('rooms/', include('room.urls')),
     path('connect/', include('connections.urls')),
-    path('todolist/',include('todolist.urls'))
+    path('todolist/',include('todolist.urls')),
+    path('dashboard/',views.dashboard,name="dashboard")
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
