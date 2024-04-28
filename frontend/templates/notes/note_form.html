@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Update Note</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="id_title" name="title" placeholder="Enter title" value="{{ form.instance.title }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="id_content" class="form-label">Content</label>
+        <textarea class="form-control" id="id_content" name="content" rows="5" placeholder="Enter content" required>{{ form.instance.content }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="id_shared_with" class="form-label">Shared with</label>
+        {{ form.shared_with }}
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'notes:note_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+  
+{% endblock %}

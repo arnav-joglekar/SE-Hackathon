@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'room',
     'todolist',
     'resources',
-    #'collab',
     'connections',
     'channels',
+    'notes',
 ]
 
 MIDDLEWARE = [
