@@ -1,75 +1,122 @@
 {% extends "base/base.html" %}
-
+{% load static %}
 {% load widget_tweaks %}
 
 {% block head %}
 <style>
-    .green {
-        color: green;
-    }
-    .red {
-        color: red;
-    }
-    .red-row {
-        background-color: red;
+    /* Form Styling */
+    .form-container {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        background-color: black;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    .green-row {
-        background-color: green;
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
     }
+
+    /* Table Styling */
+    .table-container {
+        margin-top: 30px;
+    }
+
+    .table thead th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .table tbody tr {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr.green-row {
+        background-color: #d4edda;
+    }
+
+    .table tbody tr.red-row {
+        background-color: #f8d7da;
+    }
+
+    .badge {
+        cursor: pointer;
+    }
+    body {
+        height: 100vh;
+        background-image: url("{% static 'media/selfstudy.jpg' %}");
+        background-size: cover;
+        /* backdrop-filter: blur(10px); */
+      }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container justify-content-center">
-    <form action="{% url 'todolist:create_selfstudy' %}" method="POST" class="form-inline">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label" >Name</label>
-            <input type="text" class="form-control" name='name'required/ >
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="form-container">
+                <h2 class="form-title">Things to remember</h2>
+                <form action="{% url 'todolist:create_selfstudy' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputName" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputDate" class="form-label">By</label>
+                        <input type="date" class="form-control" name="due_date" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3 form-group justify-content-center">
-            <label for="exampleInputDate1" class="sr-only" >Date</label>
-            <input type="date" class="form-control" id="exampleInputDate1" name='due_date' required/ placeholder="Date">
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" required/ id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1" >Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 </div>
-<div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Serial Number</th>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for s in selfstudy %}
-                <tr class="{% if s.due_date > s.currentTime %}green-row{% else %}red-row{% endif %}">
-                    {% if forloop.first %}
-                        <td>1</td>
-                    {% else %}
-                        <td>{{ forloop.counter }}</td>
-                    {% endif %}
-                    <td>{{ s.due_date }}</td>
-                    <td>{{ s.name }}</td>
-                    <td>
-                        {% if s.completed %}
-                         <span class="badge badge-success btn btn-success">Completed</span>
-                        {% else %}
-                        <a class="badge badge-danger btn btn-danger" href="{% url 'todolist:complete_selfstudy' s.uuid %}">Complete</a>
-                        {% endif %}
-                        <a class="badge badge-danger btn btn-danger" href="{% url 'todolist:delete_selfstudy' s.uuid %}">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+<div class="container table-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in selfstudy %}
+                        <tr class="{% if s.due_date > s.currentTime %}green-row{% else %}red-row{% endif %}">
+                            {% if forloop.first %}
+                                <td>1</td>
+                            {% else %}
+                                <td>{{ forloop.counter }}</td>
+                            {% endif %}
+                            <td>{{ s.name }}</td>
+                            <td>{{ s.due_date }}</td>
+                            <td>
+                                {% if s.completed %}
+                                    <span class="badge bg-success">Completed</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Pending</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not s.completed %}
+                                    <a class="badge bg-primary text-light" href="{% url 'todolist:complete_selfstudy' s.uuid %}">Complete</a>
+                                {% endif %}
+                                <a class="badge bg-danger text-light" href="{% url 'todolist:delete_selfstudy' s.uuid %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

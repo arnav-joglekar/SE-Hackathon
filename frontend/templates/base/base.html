@@ -14,7 +14,7 @@
   {% endblock %}
 </head>
 <body>
-  <header class="p-3  border-bottom">
+  <header class="p-4  border-bottom"> <!-- Increased padding -->
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
@@ -28,6 +28,14 @@
           </li>
           <li><a href="{% url 'resources:index' %}" class="nav-link px-2 link-body-emphasis">Resources</a></li>
           <li><a href="{% url 'connections:connect' %}" class="nav-link px-2 link-body-emphasis">Connect</a></li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" style="font-size: 20px;"> <!-- Increased font size -->
+          <li><a href="#" class="nav-link px-3 link-body-emphasis">Home</a></li> <!-- Increased padding -->
+          <li><a href="#" class="nav-link px-3 link-body-emphasis">Explore</a></li> <!-- Increased padding -->
+          <li><a href="{% url "todolist:index" %}" class="nav-link px-3 link-body-emphasis">Todo</a></li> <!-- Increased padding -->
+          <li><a href="{% url 'notes:note_list' %}" class="nav-link px-3 link-body-emphasis">Collaborate notes</a>
+          </li> <!-- Increased padding -->
+          <li><a href="{% url 'resources:index' %}" class="nav-link px-3 link-body-emphasis">Resources</a></li> <!-- Increased padding -->
+          <li><a href="{% url 'connections:connect' %}" class="nav-link px-3 link-body-emphasis">Connect</a></li> <!-- Increased padding -->
         </ul>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
