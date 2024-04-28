@@ -23,13 +23,22 @@ def connect(request):
         all_domains.update(profile.domains.all())
 
     courses = request.GET.get('courses')
-    domains = request.GET.get('domains')  
+    domains = request.GET.get('domains')
+    search_query = request.GET.get('search')  # New: Get search query
+    availability = request.GET.get('availability')
+    
+    if search_query:
+        user_profiles = user_profiles.filter(user__username__icontains=search_query)  # New: Filter by username
     
     if courses:
         user_profiles = user_profiles.filter(courses=courses)
     
     if domains:
         user_profiles = user_profiles.filter(domains__name=domains)
+
+    if availability:  # Filter by availability if provided
+        user_profiles = user_profiles.filter(availability=availability)
+    
     
     DEPARTMENT_YEAR_CHOICES = UserProfile.DEPARTMENT_YEAR_CHOICES  
     
