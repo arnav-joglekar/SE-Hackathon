@@ -7,7 +7,7 @@
 <style>
     .student-card {
         margin-bottom: 20px;
-        height: 250px; 
+        height: 270px; 
         overflow-y: auto;
     }
     .card-body {
@@ -19,7 +19,16 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="mb-4">Available Students</h1>
-
+    <div class="mb-4">
+        <form action="" method="get" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search by Username" name="search">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
     <!-- Filter Section -->
     <div class="mb-4">
         <form action="" method="get" class="row g-3">
@@ -42,6 +51,16 @@
                     {% endfor %}
                 </select>
             </div>
+
+            <div class="col-md-4">
+                <select class="form-select" id="availability" name="availability">
+                    <option value="" selected>Filter by availability</option>
+                    <option value="morning">Morning</option>
+                    <option value="evening">Evening</option>
+                    <option value="night">Night</option>
+                </select>
+            </div>
+            
             
             <div class="col-md-4">
                 <button type="submit" class="btn btn-primary">Apply Filters</button>
@@ -57,15 +76,16 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ student.user.username }} &nbsp&nbsp&nbsp
                             {% if not student.has_pending_request and not student.is_friend %}
-                            <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-primary">Send Request</a>
+                            <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-success">Send Request</a>
                             {% elif not student.is_friend %}
-                            <a href="#" class="btn btn-primary disabled">Request Sent</a>
+                            <a href="#" class="btn btn-success disabled">Request Sent</a>
                             {% else %}
                             <button class="disabled">Friends</button>
                             {% endif %}</h5>
                         <p class="card-text">Courses: {{ student.courses }}</p>
                         <p class="card-text">Preferred Study Methods: {{ student.preferred_study_methods }}</p>
                         <p class="card-text">Goals: {{ student.goals }}</p>
+                        <p class="card-text">Availability: {{ student.availability }}</p>
                         <p class="card-text">Domains: 
                             {% for domain in student.domains.all %}
                                 {{ domain.name }}
