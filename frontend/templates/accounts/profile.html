@@ -3,24 +3,38 @@
 {% block title %}
     View Students
 {% endblock %}
+{% block head %}
+<style>
+    
+</style>
+{% endblock %}
 {% block content %}
 <div class="container mt-5">
     <h1>User Profile</h1>
     <h2>User Details</h2>
     <p>Username: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
+    <p>Interested Domains: 
+        {% for domain in request.user.userprofile.domains.all %}
+        {{ domain.name }}
+        {% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    <p>Courses: {{ user.userprofile.courses }}</p>
+    <p>Preferred Study method: {{ user.userprofile.preferred_study_methods }}</p>
+    <p>Goals: {{ user.userprofile.goals }}</p>
+</p>
     <!-- Add more user details as needed -->
 
     <h2>Friend Requests </h2>
     {% if friend_requests %}
-    <ul>
+    <ul class="list-group">
         {% for request in friend_requests %}
-        <li>
+        <li class="list-group-item">
             From: {{ request.sender.username }}
             <form method="post" action="{% url 'accounts:acdrequest' request.id %}">
                 {% csrf_token %}
-                <button type="submit" name="action" value="accept">Accept</button>
-                <button type="submit" name="action" value="decline">Decline</button>
+                <button type="submit" name="action" value="accept" class="btn btn-success btn-sm mr-2"><i class="bi bi-check"></i> Accept</button>
+                <button type="submit" name="action" value="decline" class="btn btn-danger btn-sm"><i class="bi bi-x"></i> Decline</button>
             </form>
         </li>
         {% endfor %}
@@ -31,9 +45,9 @@
 
     <h2>Friends</h2>
     {% if friends %}
-    <ul>
+    <ul class="list-group">
         {% for friend in friends %}
-        <li>{{ friend.username }}</li>
+        <li class="list-group-item">{{ friend.username }}</li>
         {% endfor %}
     </ul>
     {% else %}
