@@ -6,8 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm,UserProfileForm
 from .models import UserProfile
 from connections.models import FriendRequest
-from django.db.models import Q
-from resources.models import Domain
+from accounts.models import Domain
 
 def index(request):
     return render(request, 'base/base.html')
@@ -47,6 +46,7 @@ def login_view(request):
 
     return render(request, 'accounts/login.html')
 
+@login_required(login_url='accounts:login')
 def userdetails(request):
     if request.method == 'POST':
         if not UserProfile.objects.filter(user=request.user).exists():
@@ -56,6 +56,7 @@ def userdetails(request):
                 profile = form.save(commit=False)
                 profile.user = request.user
                 profile.save()
+                form.save_m2m()
                 return redirect('rooms')
     
     form = UserProfileForm()
@@ -66,6 +67,7 @@ def userdetails(request):
     }
     return render(request, 'accounts/createprofile.html', context)
 
+@login_required(login_url='accounts:login')
 def profile(request):
     user = request.user
     friend_requests = FriendRequest.objects.filter(receiver=user)  # Requests sent by the user
@@ -78,6 +80,7 @@ def profile(request):
     }
     return render(request, 'accounts/profile.html', context)
 
+@login_required(login_url='accounts:login')
 def accept_decline_friend_request(request, request_id):
     friend_request = get_object_or_404(FriendRequest, id=request_id)
     if request.method == 'POST':
@@ -99,6 +102,7 @@ def accept_decline_friend_request(request, request_id):
         return redirect('accounts:profile')
     
     return redirect('accounts:profile')
+
 
 def logout_view(request):
     logout(request)
