@@ -1,17 +1,35 @@
 {% extends "base/base.html" %}
+{% load static %}
+{% block head%}
+  <style>
+    .black{
+      color: black;
+    }
+
+    body {
+      height: 100vh;
+      background-image: url("{% static 'media/todolist2.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: blur(10px);
+    }
+  </style>
+{% endblock %}
 {% block content %}
 <div class="container justify-content-center">
 <div class="px-4 py-5 my-5 text-center">
-    <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-    <h1 class="display-5 fw-bold text-body-emphasis">Centered hero</h1>
+    <img class="d-block mx-auto mb-4" src="{% static "media/todolist.jpg" %}" alt="" width="72" height="57">
+    <div class="">
+    <h1 class="display-5 fw-bold text-light">Never forget your Assignments now</h1>
+  </div>
     <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+      <p class="lead mb-4"></p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <a href="{% url 'todolist:assignments' %}">
           <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Assignments</button>
         </a>
         <a href="{% url 'todolist:selfstudy' %}">
-          <button type="button" class="btn btn-primary btn-lg px-4">Self Study</button>
+          <button type="button" class="btn btn-primary btn-lg px-4">Things to remember</button>
         </a>
       </div>
     </div>
