@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'connect/friends.html' %}
 {% block title %}
     Chat with {{ recipient.username }}
 {% endblock %}
@@ -20,12 +20,17 @@
         background-color: #dcf8c6;
         align-self: flex-end;
         text-align: right;
-        color:black;
+        color: black;
+        font-size: large;
+        width: 600px; /* Adjust as needed */
+        margin-left: auto; /* Align to the right side */
     }
+    
     .received-message {
+        font-size:large;
         background-color: #e6e6e6;
         color:black;
-
+        width:600px;
     }
     .message p {
         margin: 0;
@@ -43,6 +48,7 @@
         padding: 20px;
         border-top: 1px solid #ccc;
     }
+    
     textarea {
         width: calc(100% - 80px);
         height: 60px;
@@ -60,6 +66,7 @@
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        position: absolute;
     }
     button:hover {
         background-color: #0056b3;
@@ -69,11 +76,13 @@
 {% block content %}
 <div class="container mt-5">
     <h1>Chat with {{ recipient.username }}</h1>
+    <h3>Start a meeting</h3><a href="{% url "connections:meeting" %}" class="button">New Meeting</a>
+    OR <a href="{% url "connections:joinmeet" %}" class="button">Join Meeting</a>
     <div class="chat-box" id="chat-box">
         {% for message in messages|dictsort:"timestamp" %}
             <div class="message {% if message.sender == recipient %}received-message{% else %}sent-message{% endif %}">
                 <p>{{ message.content }}</p>
-                <small>{{ message.sender.username }} - {{ message.timestamp|date:"DATETIME_FORMAT" }}</small>
+                <small>You - {{ message.timestamp|date:"DATETIME_FORMAT" }}</small>
             </div>
         {% endfor %}
     </div>

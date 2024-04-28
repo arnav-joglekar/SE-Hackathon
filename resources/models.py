@@ -4,7 +4,7 @@ import uuid
 
 
 class Domain(models.Model):
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=100)
 
     def __str__(self):
