@@ -1,8 +1,39 @@
 {% extends "base/base2.html" %}
+{% load static %}
 
+{% block head %}
+<style>
+  body {
+    background-image: url("{% static 'media/back.webp' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+  }
+</style>
+{%endblock head%}
+
+
+{% block list1 %}
+<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+  {% for resource in resources %}
+      {% if resource.uuid in saved_resource_ids %}
+          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ resource.title }}</a></li>
+      {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
+
+{% block list2 %}
+<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+  {% for resource in resources %}
+      {% if resource.uploader.uuid == request.user.uuid %}
+          <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{ resource.title }}</a></li>
+      {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
 
 {% block dir %}
-
 <div class="container">
   <div class="p-4"></div>
   <div class="row">
@@ -22,5 +53,4 @@
     element.href = newUrl;
   }
 </script>
-
 {% endblock %}

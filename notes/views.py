@@ -4,6 +4,7 @@ from .forms import NoteForm,NoteShareForm
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='accounts:login')
 def note_update(request, pk):
     note = get_object_or_404(Note, pk=pk)
     if request.method == 'POST':
@@ -19,18 +20,18 @@ def note_update(request, pk):
 
 
 
-@login_required
+@login_required(login_url='accounts:login')
 def note_list(request):
     notes = Note.objects.filter(shared_with=request.user) | Note.objects.filter(created_by=request.user)
     return render(request, 'notes/note_list.html', {'notes': notes})
 
-
+@login_required(login_url='accounts:login')
 def note_detail(request, pk):
     note = get_object_or_404(Note, pk=pk)
     shared_with = note.shared_with.all()
     return render(request, 'notes/note_details.html', {'note': note, 'shared_with': shared_with})
 
-
+@login_required(login_url='accounts:login')
 def note_create(request):
     if request.method == 'POST':
         form = NoteForm(request.POST, user=request.user)
@@ -48,7 +49,7 @@ def note_create(request):
     return render(request, 'notes/note_form.html', {'form': form})
 
 
-@login_required
+@login_required(login_url='accounts:login')
 def note_share(request, pk):
     note = get_object_or_404(Note, pk=pk)
  
@@ -67,7 +68,7 @@ def note_share(request, pk):
     
     return render(request, 'notes/note_share.html', {'form': form, 'note': note})
 
-@login_required
+@login_required(login_url='accounts:login')
 def note_delete(request, pk):
     note = get_object_or_404(Note, pk=pk)
     if request.method == 'POST':

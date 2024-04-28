@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from datetime import datetime
 
 
 class Domain(models.Model):
@@ -29,10 +30,14 @@ class Resource(models.Model):
     uploader = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.FileField(upload_to='resources/')
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, default=1)
-
+    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    upload_date = models.DateTimeField(default=datetime.now)
+    
     def __str__(self):
         return self.title
+    
+ 
+    
 
 class UserResource(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -42,3 +47,4 @@ class UserResource(models.Model):
 
     class Meta:
         unique_together = ['user', 'resource']
+

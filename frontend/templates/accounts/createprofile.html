@@ -33,6 +33,15 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label for="availability" class="form-label">Availability</label>
+                            <select class="form-select" id="availability" name="availability" required>
+                                {% for choice_value, choice_label in form.availability.field.choices %}
+                                    <option value="{{ choice_value }}" {% if user_profile.availability == choice_value %} selected {% endif %}>{{ choice_label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
                         <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                 </div>

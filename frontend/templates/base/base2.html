@@ -214,11 +214,8 @@
         
 
         <div class="collapse" id="home-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">flie1</a></li>
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">file2</a></li>
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">file3</a></li>
-          </ul>
+          {% block list1 %}
+          {% endblock %}
         </div>
       </li>
       
@@ -229,20 +226,23 @@
           My Uploads
         </button>
         <div class="collapse" id="account-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">f1</a></li>
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">f2</a></li>
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">f3</a></li>
-            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">f4</a></li>
-          </ul>
+          {% block list2 %}
+          {% endblock %}
         </div>
       </li>
     </ul>
   </div>
+  <div class="flex-shrink-0 p-3" style="width: 280px bottom:0px;">
+    <!-- Your existing sidebar content here -->
+    
+    <!-- Upload file button -->
+    <a href="{% url 'resources:res_form' %}" class="btn btn-primary btn-lg btn-block mt-3">Upload File</a>
+  </div>
 </div>
 
-<div class="b-example-divider b-example-vr"></div>
 
+
+<div class="b-example-divider b-example-vr"></div>
 {% block dir %}
 {% endblock %}
 

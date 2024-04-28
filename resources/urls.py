@@ -10,6 +10,8 @@ urlpatterns = [
     path('<path:resource_path>/practice-exams/', views.file_page, {'category': 'Practice Exams'}, name="practice_exams"),
     path('<path:resource_path>/useful-websites/', views.file_page, {'category': 'Useful Websites'}, name="useful_websites"),
 
+    path('form/', views.res_form, name='res_form'),
+
     path('save/<uuid:resource_uuid>/', views.save_resource, name='save_resource'),
     path('unsave/<uuid:resource_uuid>/', views.unsave_resource, name='unsave_resource'),
 
