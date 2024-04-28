@@ -23,7 +23,7 @@
        
         
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" style="font-size: 20px;"> <!-- Increased font size -->
-          <li><a href="#" class="nav-link px-3 link-body-emphasis">Home</a></li> <!-- Increased padding -->
+          <li><a href="{% url "home" %}" class="nav-link px-3 link-body-emphasis">Home</a></li> <!-- Increased padding -->
           <li><a href="{% url "room:rooms" %}" class="nav-link px-3 link-body-emphasis">Rooms</a></li> <!-- Increased padding -->
           <li><a href="{% url "todolist:index" %}" class="nav-link px-3 link-body-emphasis">Todo</a></li> <!-- Increased padding -->
           <li><a href="{% url 'notes:note_list' %}" class="nav-link px-3 link-body-emphasis">Collaborate notes</a>
