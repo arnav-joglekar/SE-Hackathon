@@ -2,7 +2,7 @@ import requests
 from django.shortcuts import render, redirect
 
 def home(request):
-    return render(request, 'base/base.html')
+    return render(request, 'home/home.html')
 
 def dashboard(request):
     return render(request, 'dashboard/dashboard.html')

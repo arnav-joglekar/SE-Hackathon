@@ -43,6 +43,10 @@
 
     .badge {
         cursor: pointer;
+    
+    }
+    .custom-shadow {
+        box-shadow: 25 25 25px rgba(250, 234, 5, 0.5); /* Change the color by adjusting the RGBA values */
     }
     body {
         height: 100vh;
@@ -54,10 +58,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-5 ">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="form-container">
+            <div class="form-container custom-shadow">
                 <h2 class="form-title">Things to remember</h2>
                 <form action="{% url 'todolist:create_selfstudy' %}" method="POST">
                     {% csrf_token %}
@@ -119,4 +123,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
