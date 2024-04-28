@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from .models import UserResource, Domain
 
+@login_required(login_url='accounts:login')
 def index(request):
     
     resources = Resource.objects.all()
@@ -26,7 +27,7 @@ def index(request):
     
     return render(request, 'resources/resources.html', context)
 
-
+@login_required(login_url='accounts:login')
 def category_page(request, resource_path):
     resources = Resource.objects.all()
     user_resources = UserResource.objects.filter(user=request.user)
@@ -39,7 +40,7 @@ def category_page(request, resource_path):
     }
     return render(request, 'resources/category.html', context)
 
-@login_required
+@login_required(login_url='accounts:login')
 def file_page(request, resource_path, category):
     # Fetch all resources
     resources = Resource.objects.filter(category=category)
@@ -69,15 +70,17 @@ def file_page(request, resource_path, category):
     }
     return render(request, 'resources/files.html', context)
 
+@login_required(login_url='accounts:login')
 def convert_to_lower_and_hyphen(domain_name):
     return domain_name.strip().replace(' ', '-').lower()
 
+@login_required(login_url='accounts:login')
 def download_resource(request, resource_uuid):
     resource = get_object_or_404(Resource, uuid=resource_uuid)
     file_path = resource.file.path  # Assuming your resource model has a 'file' field
     return FileResponse(open(file_path, 'rb'), as_attachment=True)
 
-@login_required
+@login_required(login_url='accounts:login')
 def save_resource(request, resource_uuid):
     resource = get_object_or_404(Resource, uuid=resource_uuid)
     user_resource, created = UserResource.objects.get_or_create(user=request.user, resource=resource)
@@ -88,7 +91,7 @@ def save_resource(request, resource_uuid):
     # Redirect to appropriate page after saving
     return redirect('resources:file_page',resource_path = convert_to_lower_and_hyphen(resource.domain.name), category = resource.category)
 
-@login_required
+@login_required(login_url='accounts:login')
 def unsave_resource(request, resource_uuid):
     resource = get_object_or_404(Resource, uuid=resource_uuid)
     user_resource = get_object_or_404(UserResource, user=request.user, resource=resource)
@@ -98,7 +101,7 @@ def unsave_resource(request, resource_uuid):
     # Redirect to appropriate page after unsaving
     return redirect('resources:file_page',resource_path = convert_to_lower_and_hyphen(resource.domain.name), category = resource.category)
 
-@login_required
+@login_required(login_url='accounts:login')
 def res_form(request):
     if request.method == 'POST':
         form = ResourceForm(request.POST, request.FILES)
