@@ -1,0 +1,113 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block head %}
+<style>
+    .backvideocall{
+        background-image: url("{% static 'media/videocall.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backtodo{
+        background-image: url("{% static 'media/todolist.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backhome{
+        background-image: url("{% static 'media/home.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backdc{
+        background-image: url("{% static 'media/DirectChat.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backcon{
+        background-image: url("{% static 'media/connect.png' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backres{
+        background-image: url("{% static 'media/resources.png' %}");
+        background-size: cover;
+        background-position: center;
+    }
+    .backcol{
+        background-image: url("{% static 'media/collaborations.png' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="position-relative overflow-hidden bg-dark p-3 p-md-5 m-md-3 text-left bg-body-tertiary backhome">
+    <div class="col-md-6 p-lg-5 mx-auto my-5   align-items-center">
+      <h1 class="display-3 fw-bold text-primary text-white">UniVerse</h1>
+      <h3 class="fw-normal text-muted mb-3 text-light">For and by students</h3>
+    </div>
+    </div>
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+  </div>
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">Video calling</h2>
+        <p class="lead">Empower maningful connections and and collaborative growth with our unique video calling feature.</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto backvideocall" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+    <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 text-center overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">To do app</h2>
+        <p class="lead">From now on you won't get punishments for late submissions.</p>
+      </div>
+      <div class="bg-body-tertiary shadow-sm mx-auto backtodo" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+  </div>
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5 ">Connect with peers</h2>
+        <p class="lead">Connect with your peers who have similar interests as you</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto backcon" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+    <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 text-center overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5 ">Collaborate Notes</h2>
+        <p class="lead">Collaborate seamlessly with your peers to create insightful notes that inspire progess.</p>
+      </div>
+      <div class="bg-body-tertiary shadow-sm mx-auto backcol" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+  </div>
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5 ">Resources</h2>
+        <p class="lead">Empower your learning journey with our diverse range of downloadable  resources at your fingertips.</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto backres" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+    <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 w-100 text-center overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">Direct Chat</h2>
+        <p class="lead">Experience real-time communication and  quick exchange of information with our direct message feature.</p>
+      </div>
+      <div class="bg-body-tertiary shadow-sm mx-auto backdc" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+  </div>
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary"></a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Created by:</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Dip Jain</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Ansh Gandhi</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Anurag Nair</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Arnav Joglekar</a></li>
+    </ul>
+  </footer>
+{% endblock %}
+
+
