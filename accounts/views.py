@@ -24,7 +24,7 @@ def signup(request):
                 messages.success(request, 'Account created successfully')
                 return redirect('accounts:login')
             else:
-                messages.success(request, 'Account not created successfully')
+                messages.warning(request, 'Account not created successfully')
         context = {'form': form}  
         return render(request, 'accounts/signup.html', context)
     
@@ -40,7 +40,7 @@ def login_view(request):
             if not hasattr(user, 'userprofile'):
                 return redirect('accounts:userdetails')
             else:
-                return redirect('rooms')
+                return redirect('home')
         else:
             messages.error(request, 'Invalid login details. Check your username and password.')
 
@@ -52,12 +52,13 @@ def userdetails(request):
         if not UserProfile.objects.filter(user=request.user).exists():
             form = UserProfileForm(request.POST)
             print("hi")
+            print(form.errors)
             if form.is_valid():
                 profile = form.save(commit=False)
                 profile.user = request.user
                 profile.save()
                 form.save_m2m()
-                return redirect('rooms')
+                return redirect('home')
     
     form = UserProfileForm()
     domain_choices = Domain.objects.all()
