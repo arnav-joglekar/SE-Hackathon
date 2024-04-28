@@ -4,10 +4,14 @@ from django.shortcuts import redirect
 from .forms import selfstudyform, assignmentsform
 from datetime import datetime
 import uuid
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+@login_required(login_url='accounts:login')
 def index(request):
     return render(request, 'todolist/todolist.html')
 
+@login_required(login_url='accounts:login')
 def assignments(request):
     assignments= Assignment.objects.all()
     currentTime = datetime.now().replace(tzinfo=None)
@@ -22,6 +26,7 @@ def assignments(request):
     }
     return render(request, 'todolist/assignments.html',context)
 
+@login_required(login_url='accounts:login')
 def selfstudy(request):
     selfstudy=Selfstudy.objects.all()
     currentTime = datetime.now().replace(tzinfo=None)
@@ -37,6 +42,7 @@ def selfstudy(request):
     }
     return render(request, 'todolist/selfstudy.html',context)
 
+@login_required(login_url='accounts:login')
 def create_assignments(request):
     if request.method == 'POST':
         form = assignmentsform(request.POST)
@@ -48,6 +54,7 @@ def create_assignments(request):
         form = assignmentsform()
     return render(request, 'todolist/assignments.html',{'form': form})
 
+@login_required(login_url='accounts:login')
 def create_selfstudy(request):
     if request.method == 'POST':
         form = selfstudyform(request.POST)
@@ -63,25 +70,27 @@ def create_selfstudy(request):
         form = selfstudyform()
     return render(request, 'todolist/selfstudy.html', {'form': form})
 
+@login_required(login_url='accounts:login')
 def complete_selfstudy(request, uuid):
     selfstudy = Selfstudy.objects.get(uuid=uuid)
     selfstudy.completed=True
     selfstudy.save()
     return redirect('todolist:selfstudy')
 
-
+@login_required(login_url='accounts:login')
 def complete_assignments(request, uuid):
     assignments = Assignment.objects.get(uuid=uuid)
     assignments.completed=True
     assignments.save()
     return redirect('todolist:assignments')
 
-
+@login_required(login_url='accounts:login')
 def delete_selfstudy(request, uuid):
     selfstudy = Selfstudy.objects.get(uuid=uuid)
     selfstudy.delete()
     return redirect('todolist:selfstudy')
 
+@login_required(login_url='accounts:login')
 def delete_assignments(request, uuid):
     assignments = Assignment.objects.get(uuid=uuid)
     assignments.delete()
