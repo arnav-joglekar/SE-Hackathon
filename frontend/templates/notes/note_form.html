@@ -1,5 +1,15 @@
 {% extends "base/base.html" %}
-
+{% load static %}
+{% block head %}
+<style>
+  body {
+    background-image: url("{% static 'media/back.webp' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+  }
+</style>
+{% endblock%}
 {% block content %}
 <div class="container">
     <h1>Update Note</h1>
