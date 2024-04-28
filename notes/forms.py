@@ -2,8 +2,6 @@ from django import forms
 from requests import request
 from .models import Note
 from django.contrib.auth.models import User
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
 from django.db.models import Q
 
 
