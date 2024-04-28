@@ -7,7 +7,7 @@
 <style>
     .student-card {
         margin-bottom: 20px;
-        height: 200px; 
+        height: 250px; 
         overflow-y: auto;
     }
     .card-body {
@@ -58,10 +58,10 @@
                         <h5 class="card-title">{{ student.user.username }} &nbsp&nbsp&nbsp
                             {% if not student.has_pending_request and not student.is_friend %}
                             <a href="{% url 'connections:send_friend_request' student.user.id %}" class="btn btn-primary">Send Request</a>
-                            {% comment %} {% elif not student.is_friend %}
-                                <div id="sent">Request sent</div>
+                            {% elif not student.is_friend %}
+                            <a href="#" class="btn btn-primary disabled">Request Sent</a>
                             {% else %}
-                                <p>Already friends</p> {% endcomment %}
+                            <button class="disabled">Friends</button>
                             {% endif %}</h5>
                         <p class="card-text">Courses: {{ student.courses }}</p>
                         <p class="card-text">Preferred Study Methods: {{ student.preferred_study_methods }}</p>

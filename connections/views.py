@@ -12,8 +12,11 @@ from accounts.models import Domain
 from .models import Message
 
 # Create your views here.
+@login_required(login_url='accounts:login')
 def connect(request):
     user_profiles = UserProfile.objects.exclude(user=request.user)
+    current_user_friends_ids = request.user.friends.values_list('user_id', flat=True)
+    user_profiles = user_profiles.exclude(user__id__in=current_user_friends_ids)
 
     all_domains = set()
     for profile in user_profiles:
@@ -46,7 +49,7 @@ def connect(request):
     return render(request, 'connect/connect.html', context)
 
 
-@login_required
+@login_required(login_url='accounts:login')
 def send_friend_request(request, receiver_id):
     receiver = get_object_or_404(User, id=receiver_id)
     sender = request.user
@@ -56,6 +59,7 @@ def send_friend_request(request, receiver_id):
         print('Friend Request sent') 
     return redirect('connections:connect')
 
+@login_required(login_url='accounts:login')
 def friends(request):
     user = request.user
     user_profile = UserProfile.objects.get(user=user)
@@ -67,7 +71,7 @@ def friends(request):
     }
     return render(request, 'connect/friends.html', context)
 
-
+@login_required(login_url='accounts:login')
 def chat(request, username):
     if request.method == 'POST':
         recipient_username = request.POST.get('recipient')
@@ -80,11 +84,13 @@ def chat(request, username):
         recipient = User.objects.get(username=username)
         messages_history = Message.objects.filter(sender=request.user, receiver=recipient) | Message.objects.filter(sender=recipient, receiver=request.user)
         return render(request, 'connect/chat.html', {'recipient': recipient, 'messages': messages_history})
-    
+
+@login_required(login_url='accounts:login')
 def videocall(request):
     username = request.user.username
     return render(request, 'connect/meeting.html',{'username':username})
 
+@login_required(login_url='accounts:login')
 def joinmeet(request):
     if request.method=='POST':
         rid=request.POST['roomID']
