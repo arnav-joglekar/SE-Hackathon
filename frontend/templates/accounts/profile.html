@@ -5,53 +5,114 @@
 {% endblock %}
 {% block head %}
 <style>
-    
+    /* Add custom styles for the profile page */
+    .profile-container {
+        background-color: gray;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .profile-details {
+        margin-bottom: 20px;
+    }
+
+    .friend-request {
+        margin-top: 20px;
+    }
+
+    .friend-request li {
+        margin-bottom: 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .friend-request li form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .friend-request li button {
+        margin-left: 10px;
+    }
+
+    .no-friend-request {
+        margin-top: 20px;
+    }
+
+    .friend-list {
+        margin-top: 20px;
+    }
+
+    .friend-list li {
+        margin-bottom: 10px;
+    }
 </style>
 {% endblock %}
 {% block content %}
 <div class="container mt-5">
-    <h1>User Profile</h1>
-    <h2>User Details</h2>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Interested Domains: 
-        {% for domain in request.user.userprofile.domains.all %}
-        {{ domain.name }}
-        {% if not forloop.last %}, {% endif %}
-    {% endfor %}
-    <p>Courses: {{ user.userprofile.courses }}</p>
-    <p>Preferred Study method: {{ user.userprofile.preferred_study_methods }}</p>
-    <p>Goals: {{ user.userprofile.goals }}</p>
-</p>
-    <!-- Add more user details as needed -->
-
-    <h2>Friend Requests </h2>
-    {% if friend_requests %}
-    <ul class="list-group">
-        {% for request in friend_requests %}
-        <li class="list-group-item">
-            From: {{ request.sender.username }}
-            <form method="post" action="{% url 'accounts:acdrequest' request.id %}">
-                {% csrf_token %}
-                <button type="submit" name="action" value="accept" class="btn btn-success btn-sm mr-2"><i class="bi bi-check"></i> Accept</button>
-                <button type="submit" name="action" value="decline" class="btn btn-danger btn-sm"><i class="bi bi-x"></i> Decline</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No friend requests received.</p>
-    {% endif %}
-
-    <h2>Friends</h2>
-    {% if friends %}
-    <ul class="list-group">
-        {% for friend in friends %}
-        <li class="list-group-item">{{ friend.username }}</li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No friends yet.</p>
-    {% endif %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-container">
+                <h1>User Profile</h1>
+                <div class="profile-details">
+                    <h2>User Details</h2>
+                    <p>Username: {{ user.username }}</p>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Interested Domains: 
+                        {% for domain in request.user.userprofile.domains.all %}
+                        {{ domain.name }}
+                        {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>Courses: {{ user.userprofile.courses }}</p>
+                    <p>Preferred Study method: {{ user.userprofile.preferred_study_methods }}</p>
+                    <p>Goals: {{ user.userprofile.goals }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="friend-request">
+                <h2>Friend Requests</h2>
+                {% if friend_requests %}
+                <ul class="list-group">
+                    {% for request in friend_requests %}
+                    <li class="list-group-item">
+                        From: {{ request.sender.username }}<br>
+                        Domain: {% for domain in request.sender.userprofile.domains.all %}
+                                {{ domain.name }}
+                                {% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                        <form method="post" action="{% url 'accounts:acdrequest' request.id %}">
+                            {% csrf_token %}
+                            <button type="submit" name="action" value="accept" class="btn btn-success btn-sm"><i class="bi bi-check"></i> Accept</button>
+                            <button type="submit" name="action" value="decline" class="btn btn-danger btn-sm"><i class="bi bi-x"></i> Decline</button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="no-friend-request">No friend requests received.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="friend-list">
+                <h2>Friends</h2>
+                {% if friends %}
+                <ul class="list-group">
+                    {% for friend in friends %}
+                    <li class="list-group-item">{{ friend.username }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No friends yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
